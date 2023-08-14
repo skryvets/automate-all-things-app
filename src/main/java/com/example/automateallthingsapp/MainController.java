@@ -13,7 +13,7 @@ public class MainController {
     @GetMapping("/")
     public ResponseDto root() {
         return new ResponseDto(
-            "Automate all the things!",
+            "Break the test",
             timeProvider.getCurrentDateTimeAsLong()
         );
     }
