@@ -38,7 +38,7 @@ jib {
 		image = "gcr.io/distroless/java17-debian11"
 	}
 	to {
-		image = project.rootProject.name
+		image = "skryvets/${project.rootProject.name}"
 		tags = "${project.version},latest".split(",").toSet()
 	}
 	container {
