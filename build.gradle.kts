@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.1.2"
 	id("io.spring.dependency-management") version "1.1.2"
+	id("com.google.cloud.tools.jib") version "3.3.2"
 }
 
 group = "com.example"
@@ -30,4 +31,18 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+jib {
+	from {
+		image = "gcr.io/distroless/java17-debian11"
+	}
+	to {
+		image = project.rootProject.name
+		tags = "${project.version},latest".split(",").toSet()
+	}
+	container {
+		creationTime.set("USE_CURRENT_TIMESTAMP")
+		ports = listOf("8080")
+	}
 }
