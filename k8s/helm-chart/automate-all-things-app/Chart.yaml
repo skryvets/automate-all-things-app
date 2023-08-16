@@ -1,0 +1,13 @@
+apiVersion: v2
+name: app
+description: A Helm chart for any application
+type: application
+version: 0.1.0
+appVersion: "0.0.1"
+keywords:
+  - java
+  - spring-boot
+home: https://github.com/skryvets/automate-all-things-app/tree/main/k8s/helm-chart/automate-all-things-app
+maintainers:
+  - name: Sergey Kryvets
+    url: https://github.com/skryvets

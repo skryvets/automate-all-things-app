@@ -1,0 +1,9 @@
+app:
+  name: automate-all-things-app
+  replicaCount: 1
+  container:
+    image: skryvets/automate-all-things-app
+    port: 8080
+  service:
+    type: ClusterIP
+    port: 80
