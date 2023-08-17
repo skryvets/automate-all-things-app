@@ -16,19 +16,9 @@ jobs:
     - name: Check out the repo
       uses: actions/checkout@v3
 
-    - name: Set up Helm
-      uses: azure/setup-helm@v3
-
-    - name: Set up Kubernetes
-      uses: azure/setup-kubectl@v3
-
-    - name: Authenticate with Kubernetes Cluster
-      env:
-        KUBECONFIG_FILE: ${{ secrets.KUBECONFIG_FILE }}
-      run: echo "${KUBECONFIG_FILE}" > ${KUBECONFIG}
-
-    - name: Install/Upgrade Helm Chart
-      env:
-        LOADBALANCER_ADDRESS: ${{ secrets.LOADBALANCER_ADDRESS }}
-      run: |
-        helm upgrade automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --set ingress.host=${LOADBALANCER_ADDRESS}
+    - name: Deploy
+      uses: WyriHaximus/github-action-helm3@v3
+      with:
+        exec: helm upgrade automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --set ingress.host=${{ secrets.LOADBALANCER_ADDRESS }}
+        kubeconfig: '${{ secrets.KUBECONFIG_FILE }}'
+        overrule_existing_kubeconfig: "true"
