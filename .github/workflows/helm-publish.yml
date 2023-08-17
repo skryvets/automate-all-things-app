@@ -1,0 +1,28 @@
+name: Helm Publish
+
+on:
+  workflow_run:
+    workflows: ["Docker Publish"]
+    types:
+      - completed
+
+jobs:
+  push_to_registry:
+    if: github.ref == 'refs/heads/main'
+    name: Publish helm chart to k8s cluster
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Authenticate with Kubernetes Cluster
+      env:
+        KUBECONFIG_FILE: ${{ secrets.KUBECONFIG_FILE }}
+      run: echo "${KUBECONFIG_FILE}" > ${KUBECONFIG}
+
+    - name: Install/Upgrade Helm Chart
+      env:
+        LOADBALANCER_ADDRESS: ${{ secrets.LOADBALANCER_ADDRESS }}
+      run: |
+        helm upgrade automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --set ingress.host=${LOADBALANCER_ADDRESS}
