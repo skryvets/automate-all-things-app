@@ -51,7 +51,11 @@ http://<Load_Balancer_IP_Address>
 
 ### Environment Tear Down
 
-<!-- [WIP] -->
+To tear down the environment, run the following script:
+
+```bash
+.scripts/destroy-everything.sh
+```
 
 ## Automated Tests
 
