@@ -1,10 +1,6 @@
 name: Helm Publish
 
-on:
-  workflow_run:
-    workflows: ["Docker Publish"]
-    types:
-      - completed
+on: [push]
 
 jobs:
   push_to_registry:
