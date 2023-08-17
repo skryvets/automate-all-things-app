@@ -7,3 +7,5 @@ app:
   service:
     type: ClusterIP
     port: 80
+ingress:
+  host: my-domain.com # will be overridden at runtime by loadbalancer variable. Please see "deploy-everything.sh" script
