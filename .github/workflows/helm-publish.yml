@@ -20,5 +20,5 @@ jobs:
       uses: WyriHaximus/github-action-helm3@v3
       with:
         exec: helm upgrade automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --set ingress.host=${{ secrets.LOADBALANCER_ADDRESS }}
-        kubeconfig: '${{ secrets.KUBECONFIG_FILE }}'
+        kubeconfig: '${{ secrets.KUBECONFIG }}'
         overrule_existing_kubeconfig: "true"
