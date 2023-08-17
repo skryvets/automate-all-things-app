@@ -47,10 +47,9 @@ while [ -z $loadbalancer_address ]; do
   echo "Checking for LoadBalancer address..."
 done
 
+# Step 8: Install automate-all-things-app
+helm install automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --create-namespace --set ingress.host=$loadbalancer_address
+
 echo "======================================="
 echo "LoadBalancer Address: $loadbalancer_address"
 echo "======================================="
-
-
-# Step 8: Install automate-all-things-app
-helm install automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --create-namespace --set ingress.host=$loadbalancer_address
