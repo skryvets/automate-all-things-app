@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: {{ .Values.app.name }}
 spec:
-  ingressClassName: ingress-nginx
+  ingressClassName: nginx
   rules:
     - host: {{ .Values.ingress.host }}
       http:
