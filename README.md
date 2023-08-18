@@ -70,3 +70,35 @@ To validate the environment, run the following command:
 
 - This setup assumes you have already configured your AWS CLI with the necessary credentials.
 - The Terraform scripts are set to deploy resources in the `us-west-2` region by default. Update the Terraform variables if a different region is desired.
+
+
+## Note - CI/CD Configuration
+
+When setting up CI/CD pipelines for your EKS cluster, it is crucial to ensure that the CI/CD user has the necessary permissions to interact with the cluster. This configuration allows your CI/CD user (e.g., GitHub Actions runner) to execute commands against the Kubernetes API Server.
+
+Follow these steps to authorize your CI/CD user:
+
+- Identify the User's ARN:
+    - Obtain the ARN (Amazon Resource Name) for your CI/CD user.
+    - Example: `arn:aws:iam::xxxxxx:user/github-actions-deployer`
+
+- Update the aws-auth ConfigMap in your EKS Cluster:
+    - Modify the aws-auth ConfigMap in the kube-system namespace of your EKS cluster to include your CI/CD user's ARN. Add the following YAML under the mapUsers field:
+
+      ```yaml
+      mapUsers: |
+      - userarn: arn:aws:iam::xxxxxx:user/github-actions-deployer
+        username: github-actions-deployer
+        groups:
+          - system:masters
+            Apply the Configuration:
+      ```
+- Apply the Configuration:
+    - Save the updated aws-auth ConfigMap and apply it.
+
+
+Note:
+The `system:masters` group grants full administrative access to the cluster. For production environments, consider using more restrictive RBAC roles to follow the principle of least privilege.
+
+For more information, refer to the AWS Knowledge Center article:
+[Handling EKS API Server Unauthorized Error](https://repost.aws/knowledge-center/eks-api-server-unauthorized-error)
