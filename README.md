@@ -91,11 +91,10 @@ kubectl edit configmap aws-auth --namespace kube-system
 
 ```yaml
 mapUsers: |
-- userarn: arn:aws:iam::YOUR_AWS_ACCOUNT_ID:user/github-actions-deployer
-  username: github-actions-deployer
-  groups:
+  - userarn: arn:aws:iam::047113432147:user/github-actions-deployer
+    username: github-actions-deployer
+    groups:
     - system:masters
-      Note: The system:masters group grants full administrative access to the cluster. For production environments, consider using more restrictive RBAC roles to follow the principle of least privilege.
 ```
 
 For more details, refer to [Handling EKS API Server Unauthorized Error](https://repost.aws/knowledge-center/eks-api-server-unauthorized-error).
