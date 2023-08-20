@@ -44,10 +44,10 @@ jobs:
 
       - name: Update Kube Config
         run: |
-          echo "Cluster name is: '${{ env.cluster_name }}'"
           aws eks update-kubeconfig --name  ${{ env.cluster_name }} --region ${{ secrets.AWS_REGION }}
 
       - name: Deploy Helm chart
         run: |
           loadbalancer_address=$(kubectl get svc ingress-nginx-controller -n ingress-nginx --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+          echo "loadbalancer_address is: $loadbalancer_address"
           helm upgrade --install automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --create-namespace --set ingress.host=$loadbalancer_address
