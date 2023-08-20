@@ -37,6 +37,7 @@ jobs:
       - name: Fetch cluster name
         run: |          
           cluster_name=$(terraform -chdir=terraform/aws-eks/ output -raw cluster_name)
+          echo "cluster_name is: $cluster_name"
           echo "cluster_name=$cluster_name" >> $GITHUB_ENV
 
       - name: Update Kube Config
