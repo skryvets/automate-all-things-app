@@ -35,6 +35,7 @@ echo "Destroying AWS EKS Infrastructure..."
 terraform -chdir=terraform/aws-eks/ destroy -auto-approve
 
 # Step 6. Destroying Terraform back-end
+aws s3 rm s3://automate-all-things-app-terraform-back-end --recursive
 echo "Destroying Terraform back-end..."
 terraform -chdir=terraform/configure-backend/ destroy -auto-approve
 
