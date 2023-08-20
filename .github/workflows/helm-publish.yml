@@ -34,12 +34,10 @@ jobs:
       - name: Initialize Terraform
         run: terraform -chdir=terraform/aws-eks/ init
 
-      #Error: Added 2>/dev/null
-      #Error: Ignore debug messages - 'education-eks-0adsKiUg::debug::Terraform exited with code 0.'
       - name: Fetch cluster name
         run: |          
-          cluster_name=$(terraform -chdir=terraform/aws-eks/ output -raw cluster_name 2>/dev/null)
-          echo "cluster_name=$cluster_name" >> $GITHUB_ENV
+          cluster_name=$(terraform -chdir=terraform/aws-eks/ output -raw)
+          echo "cluster_name=$cluster_name" | tee -a $GITHUB_ENV
 
       - name: Update Kube Config
         run: |
