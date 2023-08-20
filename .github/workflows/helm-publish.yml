@@ -28,10 +28,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialize Terraform
+        run: terraform -chdir=terraform/aws-eks/ init -auto-approve
+
+      - name: Fetch cluster name
+        run: |
+          cluster_name=$(terraform output -raw cluster_name)
+          echo "cluster_name=$cluster_name" >> $GITHUB_ENV
+
       - name: Update Kube Config
         run: |
-          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+          aws eks update-kubeconfig --name  ${{ env.cluster_name }} --region ${{ secrets.AWS_REGION }}
 
       - name: Deploy Helm chart
         run: |
-          helm upgrade --install automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --create-namespace --set ingress.host=${{ secrets.LOADBALANCER_ADDRESS }}
+          loadbalancer_address=$(kubectl get svc ingress-nginx-controller -n ingress-nginx --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+          helm upgrade --install automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --create-namespace --set ingress.host=$loadbalancer_address

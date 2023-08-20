@@ -34,6 +34,10 @@ kubectl delete namespace ingress-nginx
 echo "Destroying AWS EKS Infrastructure..."
 terraform -chdir=terraform/aws-eks/ destroy -auto-approve
 
+# Step 6. Destroying Terraform back-end
+echo "Destroying Terraform back-end..."
+terraform -chdir=terraform/configure-backend/ destroy -auto-approve
+
 # Print completion message
 echo "======================================="
 echo "Resources have been successfully destroyed."

@@ -3,6 +3,13 @@
 
 terraform {
 
+  backend "s3" {
+    bucket = "automate-all-things-app-terraform-back-end"
+    key    = "state/terraform.tfstate"
+    region = "us-west-2"
+    dynamodb_table = "automate-all-things-app-terraform-back-end"
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"

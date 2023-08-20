@@ -80,8 +80,6 @@ To set up your CI/CD pipeline for EKS, create a dedicated AWS IAM user (e.g., gi
 - `AWS_ACCESS_KEY_ID`: Deploy user's AWS access key.
 - `AWS_SECRET_ACCESS_KEY`: Deploy user's AWS secret key.
 - `AWS_REGION`: AWS region where your EKS cluster is located.
-- `CLUSTER_NAME`: The name of your EKS cluster.
-- `LOADBALANCER_ADDRESS`: The address where your load balancer listens for connections.
 
 Authorize this IAM user to interact with your EKS cluster by adding its credentials to the aws-auth ConfigMap in your EKS cluster:
 

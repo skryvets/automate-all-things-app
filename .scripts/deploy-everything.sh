@@ -7,6 +7,9 @@ ABSPATH=$(realpath $0)
 BASEPATH=$(dirname ${ABSPATH})
 PROJPATH=$(dirname ${BASEPATH})
 
+# Step 0: Provision Terraform back-end
+terraform -chdir=terraform/configure-backend/ apply -auto-approve
+
 # Step 1: Apply Terraform
 terraform -chdir=terraform/aws-eks/ apply -auto-approve
 
