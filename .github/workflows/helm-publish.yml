@@ -32,7 +32,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Initialize Terraform
-        run: terraform -chdir=terraform/aws-eks/ init -auto-approve
+        run: terraform -chdir=terraform/aws-eks/ init
 
       - name: Fetch cluster name
         run: |
