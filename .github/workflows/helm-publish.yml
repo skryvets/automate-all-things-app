@@ -55,7 +55,6 @@ jobs:
 
       - name: Validate
         run: |
-          sudo apt-get install -y jq
           response_json=$(curl -s {{env.loadbalancer_address}})
           message=$(echo "$response_json" | jq -r .message)
           
