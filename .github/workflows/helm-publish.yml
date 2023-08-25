@@ -49,5 +49,21 @@ jobs:
       - name: Deploy Helm chart
         run: |
           loadbalancer_address=$(kubectl get svc ingress-nginx-controller -n ingress-nginx --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+          echo "loadbalancer_address=$loadbalancer_address" >> $GITHUB_ENV
           echo "loadbalancer_address is: $loadbalancer_address"
           helm upgrade --install automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --create-namespace --set ingress.host=$loadbalancer_address
+
+      - name: Validate
+        run: |
+          sudo apt-get install -y jq
+          response_json=$(curl -s {{env.loadbalancer_address}})
+          message=$(echo "$response_json" | jq -r .message)
+          
+          expected_message="Automate all the things!"
+          
+          if [[ "$message" == "$expected_message" ]]; then
+            echo "Validation successful. Application returned the expected message."
+          else
+            echo "Validation failed. Expected '$expected_message' but got '$message'."
+            exit 1
+          fi
