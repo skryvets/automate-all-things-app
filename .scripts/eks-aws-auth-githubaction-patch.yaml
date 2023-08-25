@@ -1,0 +1,6 @@
+data:
+  mapUsers: |
+    - userarn: arn:aws:iam::047113432147:user/github-actions-deployer
+      username: github-actions-deployer
+      groups:
+      - system:masters

@@ -38,11 +38,14 @@ kubectl cluster-info
 echo "Nodes Information:"
 kubectl get nodes
 
-# Step 7: Install ingress-nginx Helm Chart
+# Step 7: Authorize "github-actions-deployer" IAM user
+kubectl patch configmap aws-auth -n kube-system --patch-file .scripts/eks-aws-auth-githubaction-patch.yaml
+
+# Step 8: Install ingress-nginx Helm Chart
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace
 
-# Step 7.1: Waiting for LoadBalancer to be provisioned...
+# Step 9.1: Waiting for LoadBalancer to be provisioned...
 echo "Waiting for LoadBalancer to be provisioned..."
 while [ -z $loadbalancer_address ]; do
   sleep 10
@@ -50,7 +53,7 @@ while [ -z $loadbalancer_address ]; do
   echo "Checking for LoadBalancer address..."
 done
 
-# Step 8: Install automate-all-things-app
+# Step 10: Install automate-all-things-app
 helm upgrade --install automate-all-things-app ./k8s/helm-chart/automate-all-things-app -n automate-all-things-app --create-namespace --set ingress.host=$loadbalancer_address
 
 echo "======================================="
