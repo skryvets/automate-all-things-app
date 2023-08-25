@@ -55,7 +55,7 @@ jobs:
 
       - name: Validate
         run: |
-          response_json=$(curl -s {{env.loadbalancer_address}})
+          response_json=$(curl -s {{ env.loadbalancer_address }})
           message=$(echo "$response_json" | jq -r .message)
           
           expected_message="Automate all the things!"
